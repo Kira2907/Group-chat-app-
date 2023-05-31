@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">Sign-up</h1>
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" class="form-control" id="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script type="text/javascript" id="dcoder_script"> 
+    const signupForm = document.getElementById('signupForm');
+
+    signupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await axios.post('http://localhost:4000/signup', { name, email, phone, password });
+        console.log(response);
+        // Handle success response
+        // For example, redirect the user to another page
+        window.location.href = '/dashboard';
+      } catch (error) {
+        console.error(error);
+        // Handle error response
+        // For example, display an alert with the error message
+        if (error.response && error.response.data.message === 'User already exists') {
+          alert('User already exists');
+        }
+      }
+    });
+ </script></body></html>
