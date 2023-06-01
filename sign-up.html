@@ -1,38 +1,47 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup Page</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
-<body>
-  <div class="container">
-    <h1 class="text-center">Sign-up</h1>
-    <form id="signupForm">
+<html> 
+ <head> 
+  <title>Sign-up page</title> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+  <style>
+      .centered-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+  </style> 
+ </head> 
+ <body> 
+  <div class="container"> 
+   <div class="row centered-form"> 
+    <div class="col-md-6"> 
+     <form id="signupForm" class="border border-primary p-4 rounded" valign="top"> 
+      <h1 class="text-center mb-4 text-orange">Sign-up page</h1> 
+      <div class="form-group"> <label for="name">Name:</label> 
+       <input type="text" class="form-control" id="name" required> 
+      </div> 
+      <div class="form-group"> <label for="email">Email:</label> 
+       <input type="email" class="form-control" id="email" required> 
+      </div> 
+      <div class="form-group"> <label for="phone">Phone Number:</label> 
+        <input type="tel" class="form-control" id="phone" required> 
+       </div> 
+       <div class="form-group"> <label for="password">Password:</label> 
+        <input type="password" class="form-control" id="password" required> 
+       </div> 
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" required>
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" required>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script type="text/javascript" id="dcoder_script"> 
+         <button type="submit" class="btn btn-primary">Submit</button> 
+      </div> 
+     </form> 
+    </div> 
+   </div> 
+    
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+  
+<script> 
     const signupForm = document.getElementById('signupForm');
 
     signupForm.addEventListener('submit', async (event) => {
@@ -41,17 +50,16 @@
       const email = document.getElementById('email').value;
       const phone = document.getElementById('phone').value;
       const password = document.getElementById('password').value;
-
+      
       try {
         const response = await axios.post('http://localhost:4000/signup', { name, email, phone, password });
+        if (response && response.data.message === 'Signup successful') {
+          alert('Signup successful');
+        }
         console.log(response);
-        // Handle success response
-        // For example, redirect the user to another page
-        window.location.href = '/dashboard';
-      } catch (error) {
+        signupForm.reset();
+        } catch (error) {
         console.error(error);
-        // Handle error response
-        // For example, display an alert with the error message
         if (error.response && error.response.data.message === 'User already exists') {
           alert('User already exists');
         }
