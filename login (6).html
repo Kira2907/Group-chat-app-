@@ -1,0 +1,66 @@
+<!doctype html>
+<html> 
+ <head> 
+  <title>Login page</title> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+  <style>
+      .centered-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+  </style> 
+ </head> 
+ <body> 
+  <div class="container"> 
+   <div class="row centered-form"> 
+    <div class="col-md-6"> 
+     <form id="loginForm" class="border border-primary p-4 rounded" valign="top"> 
+      <h1 class="text-center mb-4 text-orange">Login page</h1> 
+      <div class="form-group"> <label for="email">Email:</label> 
+       <input type="email" class="form-control" id="email" required> 
+      </div> 
+        <div class="form-group"> <label for="password">Password:</label> 
+        <input type="password" class="form-control" id="password" required> 
+       </div> 
+      <div class="form-group">
+         <button type="submit" class="btn btn-primary">LOGIN</button> 
+      </div> 
+      <a href="http://localhost:4000/sign-up">New user? Signup Now</a>
+     </form> 
+    </div> 
+   </div> 
+       
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const loginForm = document.getElementById('loginForm');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await axios.post('http://localhost:4000/login', { email, password });
+        if (response.data.message === "User not found") {
+        alert("User not found");
+      } else if (response.data.message === 'User not authorized') {
+        alert('Password is incorrect');
+      } else {
+          localStorage.setItem('token', response.data.token); 
+          localStorage.setItem('name', response.data.name); 
+          loginForm.reset();
+          window.location.href = "/chat";
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred. Please try again.');
+    }
+  });
+</script>
+</body></html>
